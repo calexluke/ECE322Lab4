@@ -1,5 +1,7 @@
 #include <msp430.h>
 #include "servoControl.h"
+#include "msp430BuiltInIO.h"
+#include "global.h"
 
 /*
  * servoControl.c
@@ -9,6 +11,9 @@
  */
 
 unsigned long currentPulseWidth = SERVO_MID_PULSE;
+
+BUTTON_STATE button1Previous = NOT_PRESSED;
+BUTTON_STATE button2Previous = NOT_PRESSED;
 
 void configureTimersForServo() {
     // Configure Timer0_A
@@ -72,4 +77,17 @@ void setServo(SERVO_POSITION position) {
         break;
     }
     TA0CCR1 = currentPulseWidth;
+}
+
+void buttonTapTick() {
+    if (button1 == PRESSED && button1Previous == NOT_PRESSED) {
+        stepServoCounterClockwise();
+    }
+
+    if (button2 == PRESSED && button2Previous == NOT_PRESSED) {
+        stepServoClockwise();
+    }
+
+    button1Previous = button1;
+    button2Previous = button2;
 }

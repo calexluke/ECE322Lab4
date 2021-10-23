@@ -1,5 +1,6 @@
 
 #include "msp430BuiltInIO.h"
+#include "encoderStateMachine.h"
 
 /*
  * global.h
@@ -14,6 +15,8 @@
 
 BUTTON_STATE button1;
 BUTTON_STATE button2;
+encoderPinState encoderA;
+encoderPinState encoderB;
 int timerFlag;
 
 #endif /* GLOBAL_H_ */

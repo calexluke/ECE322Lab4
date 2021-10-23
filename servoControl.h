@@ -15,7 +15,6 @@
  */
 
 #define SMCLOCK_HZ 1000000L  // Hz
-
 #define SERVO_PERIOD_HZ 50  // 20ms or 50Hz
 
 #define SERVO_MIN_PULSE_US 500L
@@ -39,5 +38,6 @@ void configureIOForServo();
 void stepServoClockwise();
 void stepServoCounterClockwise();
 void setServo(SERVO_POSITION position);
+void buttonTapTick();
 
 #endif /* SERVOCONTROL_H_ */

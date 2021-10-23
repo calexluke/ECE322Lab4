@@ -2,12 +2,8 @@
 #include "msp430BuiltInIO.h"
 #include "servoControl.h"
 #include "longPressStateMachine.h"
+#include "encoderStateMachine.h"
 #include "global.h"
-
-
-BUTTON_STATE button1Previous = NOT_PRESSED;
-BUTTON_STATE button2Previous = NOT_PRESSED;
-
 
 /**
  * main.c
@@ -19,6 +15,7 @@ int main(void)
 
     configureBuiltInIO();
     configureIOForServo();
+    configureIOForEncoder();
     configureTimersForServo();
 
     // Disable the GPIO power-on default high-impedance mode to activate
@@ -27,32 +24,18 @@ int main(void)
 
     setServo(CENTER);
     longPressState = buttonsOff;
+    encoderState = waitForDetent;
 
     while(1) {
         button1 = readButton1();
         button2 = readButton2();
+        encoderA = readEncoderA();
+        encoderB = readEncoderB();
 
-        if (button1 == PRESSED && button1Previous == NOT_PRESSED) {
-            stepServoCounterClockwise();
-
-            // LED1 toggle for debugging
-            //toggleLED1();
-        }
-
-        if (button2 == PRESSED && button2Previous == NOT_PRESSED) {
-
-            stepServoClockwise();
-
-            // LED2 toggle for debugging
-            //toggleLED2();
-        }
-
-        button1Previous = button1;
-        button2Previous = button2;
-
+        buttonTapTick();
         longPressTick();
+        encoderTick();
         timerFlag = 0;
-
     }
 
 	return 0;
