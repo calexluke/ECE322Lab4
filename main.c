@@ -8,7 +8,6 @@
 BUTTON_STATE button1Previous = NOT_PRESSED;
 BUTTON_STATE button2Previous = NOT_PRESSED;
 
-int timerCounter = 0;
 
 /**
  * main.c
@@ -61,14 +60,8 @@ int main(void)
 
 // Timer0_A0 interrupt service routine
 #pragma vector = TIMER0_A0_VECTOR
-__interrupt void timer0Interrupt (void) // change name of timer interrupt routine
+__interrupt void timer0Interrupt (void)
 {
-    timerCounter++;
-    if (timerCounter > 10) {
-        //toggleLED1();
-        //toggleLED2();
-        timerCounter = 0;
-    }
     timerFlag = 1;
 }
 
