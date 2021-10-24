@@ -8,7 +8,7 @@
 #ifndef LONGPRESSSTATEMACHINE_H_
 #define LONGPRESSSTATEMACHINE_H_
 
-enum longPressStates {buttonsOff, buttonsHeld, button1Held, button2Held, servoCenter, servoCCW, servoCW} longPressState;
+enum longPressStates {buttonsOff, bothButtonsHeld, button1Held, button2Held, servoCenter, servoCCW, servoCW} longPressState;
 void longPressTick();
 void longPressStateTransition();
 void longPressStateActions();

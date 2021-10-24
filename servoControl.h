@@ -38,6 +38,5 @@ void configureIOForServo();
 void stepServoClockwise();
 void stepServoCounterClockwise();
 void setServo(SERVO_POSITION position);
-void buttonTapTick();
 
 #endif /* SERVOCONTROL_H_ */

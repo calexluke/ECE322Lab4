@@ -11,13 +11,13 @@
  *      Author: alex
  */
 
-// will count up every 20ms period
-// 25 * 20 = 500ms
-const int LONG_PRESS_VALUE = 25;
+// counter increments every 20ms period
+#define LONG_PRESS_LENGTH 500
+#define LONG_PRESS_COUNTER_MAX (LONG_PRESS_LENGTH / 20)
+
 int longPressCounter = 0;
 
 void longPressTick() {
-
     longPressStateTransition();
     longPressStateActions();
 }
@@ -32,31 +32,31 @@ void longPressStateTransition() {
             } else if (button1 == NOT_PRESSED && button2 == PRESSED) {
                 longPressState = button2Held;
             } else if (button1 == PRESSED && button2 == PRESSED) {
-                longPressState = buttonsHeld;
+                longPressState = bothButtonsHeld;
             } else {
                 longPressState = buttonsOff;
             }
             break;
 
-        case buttonsHeld:
+        case bothButtonsHeld:
             if (button1 == NOT_PRESSED || button2 == NOT_PRESSED) {
-                // user let go of any button
+                // stopped holding button
                 longPressState = buttonsOff;
-            } else if (longPressCounter >= LONG_PRESS_VALUE) {
+            } else if (longPressCounter >= LONG_PRESS_COUNTER_MAX) {
                 longPressState = servoCenter;
             } else {
-                longPressState = buttonsHeld;
+                longPressState = bothButtonsHeld;
             }
             break;
 
         case button1Held:
             if (button1 == NOT_PRESSED) {
-                // user let go of button
+                // stopped holding button
                 longPressState = buttonsOff;
             } else if (button1 == PRESSED && button2 == PRESSED) {
                 // user holds other button as well
-                longPressState = buttonsHeld;
-            } else if (longPressCounter >= LONG_PRESS_VALUE) {
+                longPressState = bothButtonsHeld;
+            } else if (longPressCounter >= LONG_PRESS_COUNTER_MAX) {
                 longPressState = servoCCW;
             } else {
                 longPressState = button1Held;
@@ -69,8 +69,8 @@ void longPressStateTransition() {
                 longPressState = buttonsOff;
             } else if (button1 == PRESSED && button2 == PRESSED) {
                 // user holds other button as well
-                longPressState = buttonsHeld;
-            } else if (longPressCounter >= LONG_PRESS_VALUE) {
+                longPressState = bothButtonsHeld;
+            } else if (longPressCounter >= LONG_PRESS_COUNTER_MAX) {
                 longPressState = servoCW;
             } else {
                 longPressState = button2Held;
@@ -80,12 +80,15 @@ void longPressStateTransition() {
         case servoCenter:
             longPressState = buttonsOff;
             break;
+
         case servoCCW:
             longPressState = buttonsOff;
             break;
+
         case servoCW:
             longPressState = buttonsOff;
             break;
+
         default:
             longPressState = buttonsOff;
             break;
@@ -101,7 +104,7 @@ void longPressStateActions() {
             longPressCounter = 0;
             break;
 
-        case buttonsHeld:
+        case bothButtonsHeld:
             if (timerFlag == 1) longPressCounter++;
             break;
 
@@ -116,12 +119,15 @@ void longPressStateActions() {
         case servoCenter:
             setServo(CENTER);
             break;
+
         case servoCCW:
             setServo(CCW_MAX);
             break;
+
         case servoCW:
             setServo(CW_MAX);
             break;
+
         default:
             // do nothing
             break;

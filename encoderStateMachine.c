@@ -1,6 +1,7 @@
 #include <msp430.h>
 #include "encoderStateMachine.h"
 #include "servoControl.h"
+#include "encoder.h"
 #include "global.h"
 
 /*
@@ -9,33 +10,6 @@
  *  Created on: Oct 23, 2021
  *      Author: alex
  */
-
-void configureIOForEncoder() {
-
-    // input A: P2.4
-    // input B: P2.5
-    // input C: ground
-
-    // P2.4 pullup resistor
-    // Encoder input A
-    P2REN |= (0x01 << 4);
-    P2OUT |= (0x01 << 4);
-
-    // P2.5 pullup resistor
-    // encoder input B
-    P2REN |= (0x01 << 5);
-    P2OUT |= (0x01 << 5);
-}
-
-encoderPinState readEncoderA() {
-    int input = P2IN & (0x01 << 4);
-    return (input != 0) ? HIGH : LOW;
-}
-
-encoderPinState readEncoderB() {
-    int input = P2IN & (0x01 << 5);
-    return (input != 0) ? HIGH : LOW;
-}
 
 bool encoderIsInDetent() {
     if (encoderA == HIGH && encoderB == HIGH) {
@@ -53,6 +27,7 @@ void encoderTick() {
 
 void encoderStateTransition() {
     switch (encoderState) {
+
         case waitForDetent:
             if (encoderIsInDetent() == true) {
                 encoderState = detent;
@@ -60,6 +35,7 @@ void encoderStateTransition() {
                 encoderState = waitForDetent;
             }
             break;
+
         case detent:
             if (encoderIsInDetent() == true) {
                 encoderState = detent;
@@ -71,12 +47,15 @@ void encoderStateTransition() {
                 encoderState = waitForDetent;
             }
             break;
+
         case CCWTick:
             encoderState = waitForDetent;
             break;
+
         case CWTick:
             encoderState = waitForDetent;
             break;
+
         default:
             encoderState = waitForDetent;
             break;

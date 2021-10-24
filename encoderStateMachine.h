@@ -10,16 +10,9 @@
 
 enum encoderStates {detent, CCWTick, CWTick, waitForDetent} encoderState;
 
-typedef enum {HIGH, LOW} encoderPinState;
-typedef enum {true, false} bool;
-
-encoderPinState readEncoderA();
-encoderPinState readEncoderB();
-bool encoderIsInDetent();
 void encoderTick();
 void encoderStateTransition();
 void encoderStateActions();
-void configureIOForEncoder();
 void setLEDsForDebug();
 
 
