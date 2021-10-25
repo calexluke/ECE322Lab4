@@ -1,3 +1,5 @@
+#include "encoder.h"
+
 /*
  * encoderStateMachine.h
  *
@@ -10,10 +12,10 @@
 
 enum encoderStates {detent, CCWTick, CWTick, waitForDetent} encoderState;
 
-void encoderTick();
-void encoderStateTransition();
+void encoderTick(encoderPinState encoderA, encoderPinState encoderB);
+void encoderStateTransition(encoderPinState encoderA, encoderPinState encoderB);
 void encoderStateActions();
-void setLEDsForDebug();
+void setLEDsForDebug(encoderPinState encoderA, encoderPinState encoderB);
 
 
 #endif /* ENCODERSTATEMACHINE_H_ */

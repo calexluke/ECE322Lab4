@@ -10,6 +10,13 @@
  * main.c
  */
 
+BUTTON_STATE button1;
+BUTTON_STATE button2;
+BUTTON_STATE button1Previous;
+BUTTON_STATE button2Previous;
+encoderPinState encoderA;
+encoderPinState encoderB;
+
 void detectButtonTap();
 void configBoard();
 void init();
@@ -26,8 +33,8 @@ int main(void)
         encoderB = readEncoderB();
 
         detectButtonTap();
-        longPressTick();
-        encoderTick();
+        longPressTick(button1, button2);
+        encoderTick(encoderA, encoderB);
         timerFlag = 0;
     }
 

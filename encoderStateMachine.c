@@ -1,7 +1,6 @@
 #include <msp430.h>
 #include "encoderStateMachine.h"
 #include "servoControl.h"
-#include "encoder.h"
 #include "global.h"
 
 /*
@@ -11,7 +10,7 @@
  *      Author: alex
  */
 
-bool encoderIsInDetent() {
+bool encoderIsInDetent(encoderPinState encoderA, encoderPinState encoderB) {
     if (encoderA == HIGH && encoderB == HIGH) {
         return true;
     } else {
@@ -19,17 +18,17 @@ bool encoderIsInDetent() {
     }
 }
 
-void encoderTick() {
-    encoderStateTransition();
+void encoderTick(encoderPinState encoderA, encoderPinState encoderB) {
+    encoderStateTransition(encoderA, encoderB);
     encoderStateActions();
-    setLEDsForDebug();
+    setLEDsForDebug(encoderA, encoderB);
 }
 
-void encoderStateTransition() {
+void encoderStateTransition(encoderPinState encoderA, encoderPinState encoderB) {
     switch (encoderState) {
 
         case waitForDetent:
-            if (encoderIsInDetent() == true) {
+            if (encoderIsInDetent(encoderA, encoderB) == true) {
                 encoderState = detent;
             } else {
                 encoderState = waitForDetent;
@@ -37,7 +36,7 @@ void encoderStateTransition() {
             break;
 
         case detent:
-            if (encoderIsInDetent() == true) {
+            if (encoderIsInDetent(encoderA, encoderB) == true) {
                 encoderState = detent;
             } else if (encoderA == LOW && encoderB == HIGH){
                 encoderState = CCWTick;
@@ -82,7 +81,7 @@ void encoderStateActions() {
         }
 }
 
-void setLEDsForDebug() {
+void setLEDsForDebug(encoderPinState encoderA, encoderPinState encoderB) {
     // allows you to see the encoder state visually using the onboard LEDs
     if (encoderA == HIGH) {
         setLED1(ON);

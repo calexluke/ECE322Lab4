@@ -17,12 +17,12 @@
 
 int longPressCounter = 0;
 
-void longPressTick() {
-    longPressStateTransition();
+void longPressTick(BUTTON_STATE button1, BUTTON_STATE button2) {
+    longPressStateTransition(button1, button2);
     longPressStateActions();
 }
 
-void longPressStateTransition() {
+void longPressStateTransition(BUTTON_STATE button1, BUTTON_STATE button2) {
 
     switch (longPressState) {
 
