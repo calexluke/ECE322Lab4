@@ -12,5 +12,6 @@
 #define GLOBAL_H_
 
 #define SMCLOCK_HZ 1000000L  // Hz
+typedef enum {false, true} bool;
 
 #endif /* GLOBAL_H_ */

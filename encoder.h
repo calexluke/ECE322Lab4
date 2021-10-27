@@ -11,7 +11,6 @@
 #define ENCODER_H_
 
 typedef enum {LOW, HIGH} encoderPinState;
-typedef enum {false, true} bool;
 
 #define ENCODER_TIMER_PERIOD_HZ 1000  // 1ms or 1000Hz
 #define ENCODER_TIMER_PERIOD (SMCLOCK_HZ / ENCODER_TIMER_PERIOD_HZ)
