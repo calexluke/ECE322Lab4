@@ -1,3 +1,5 @@
+#include "global.h"
+
 /*
  * encoder.h
  *
@@ -8,10 +10,15 @@
 #ifndef ENCODER_H_
 #define ENCODER_H_
 
-typedef enum {HIGH, LOW} encoderPinState;
+typedef enum {LOW, HIGH} encoderPinState;
+typedef enum {false, true} bool;
+
+#define ENCODER_TIMER_PERIOD_HZ 1000  // 1ms or 1000Hz
+#define ENCODER_TIMER_PERIOD (SMCLOCK_HZ / ENCODER_TIMER_PERIOD_HZ)
 
 encoderPinState readEncoderA();
 encoderPinState readEncoderB();
 void configureIOForEncoder();
+void configureTimerForEncoder();
 
 #endif /* ENCODER_H_ */

@@ -105,15 +105,18 @@ void longPressStateActions() {
             break;
 
         case bothButtonsHeld:
-            if (timerFlag == 1) longPressCounter++;
+            //if (timerFlag == 1) longPressCounter++;
+            longPressCounter++;
             break;
 
         case button1Held:
-            if (timerFlag == 1) longPressCounter++;
+            //if (timerFlag == 1) longPressCounter++;
+            longPressCounter++;
             break;
 
         case button2Held:
-            if (timerFlag == 1) longPressCounter++;
+            //if (timerFlag == 1) longPressCounter++;
+            longPressCounter++;
             break;
 
         case servoCenter:

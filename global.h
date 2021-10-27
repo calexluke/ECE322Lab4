@@ -1,6 +1,5 @@
 
 #include "msp430BuiltInIO.h"
-#include "encoder.h"
 
 /*
  * global.h
@@ -12,7 +11,6 @@
 #ifndef GLOBAL_H_
 #define GLOBAL_H_
 
-typedef enum {true, false} bool;
-int timerFlag;
+#define SMCLOCK_HZ 1000000L  // Hz
 
 #endif /* GLOBAL_H_ */

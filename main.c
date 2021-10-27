@@ -17,6 +17,9 @@ BUTTON_STATE button2Previous;
 encoderPinState encoderA;
 encoderPinState encoderB;
 
+int timerFlag1ms = 0;
+int timerFlag20ms = 0;
+
 void detectButtonTap();
 void configBoard();
 void init();
@@ -33,9 +36,10 @@ int main(void)
         encoderB = readEncoderB();
 
         detectButtonTap();
-        longPressTick(button1, button2);
-        encoderTick(encoderA, encoderB);
-        timerFlag = 0;
+        if(timerFlag20ms) longPressTick(button1, button2);
+        if(timerFlag1ms) encoderTick(encoderA, encoderB);
+        timerFlag20ms = 0;
+        timerFlag1ms = 0;
     }
 
 	return 0;
@@ -48,6 +52,7 @@ void configBoard() {
     configureIOForServo();
     configureIOForEncoder();
     configureTimersForServo();
+    configureTimerForEncoder();
     PM5CTL0 &= ~LOCKLPM5;
 }
 
@@ -74,10 +79,17 @@ void detectButtonTap() {
     button2Previous = button2;
 }
 
-// Timer0_A0 interrupt service routine
+// Timer0_A0 interrupt service routine - 20ms timer
 #pragma vector = TIMER0_A0_VECTOR
 __interrupt void timer0Interrupt (void)
 {
-    timerFlag = 1;
+    timerFlag20ms = 1;
+}
+
+// Timer1_A0 interrupt service routine - 1ms timer
+#pragma vector = TIMER1_A0_VECTOR
+__interrupt void timer1Interrupt (void)
+{
+    timerFlag1ms = 1;
 }
 

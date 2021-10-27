@@ -1,3 +1,4 @@
+#include "global.h"
 /*
  * servoControl.h
  *
@@ -14,7 +15,6 @@
  * or they will not be computed correctly!
  */
 
-#define SMCLOCK_HZ 1000000L  // Hz
 #define SERVO_PERIOD_HZ 50  // 20ms or 50Hz
 
 #define SERVO_MIN_PULSE_US 500L

@@ -10,7 +10,7 @@
 #ifndef ENCODERSTATEMACHINE_H_
 #define ENCODERSTATEMACHINE_H_
 
-enum encoderStates {detent, CCWTick, CWTick, waitForDetent} encoderState;
+enum encoderStates {detent, CCWTick, CWTick, waitForDetent, debounce} encoderState;
 
 void encoderTick(encoderPinState encoderA, encoderPinState encoderB);
 void encoderStateTransition(encoderPinState encoderA, encoderPinState encoderB);

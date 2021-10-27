@@ -25,6 +25,18 @@ void configureIOForEncoder() {
     P2OUT |= (0x01 << 5);
 }
 
+void configureTimerForEncoder() {
+    // Configure Timer1_A period
+    TA1CCR0 = ENCODER_TIMER_PERIOD;
+
+    // interrupt enabled
+    TA1CCTL0 = CCIE;
+
+    // Configure TimerA1 mode and GO
+    TA1CTL = TASSEL__SMCLK | MC__UP | TACLR;   // SMCLK, up mode, clear TAR
+
+}
+
 encoderPinState readEncoderA() {
     int input = P2IN & (0x01 << 4);
     return (input != 0) ? HIGH : LOW;
